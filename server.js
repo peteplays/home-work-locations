@@ -3,7 +3,7 @@ var express     = require('express'),
     favicon     = require('serve-favicon'),
     app         = express(),
     path        = require('path'),
-    port        = process.env.PORT || 5555,
+    port        = process.env.PORT || 5555;
 
 console.log('Server running at...\nhttp://localhost:'+port);
 
