@@ -1,7 +1,7 @@
 var MongoClient = require('mongodb').MongoClient,
     _           = require('underscore'),
     mongoUrl    = process.env.MONGODB_URI || 'mongodb://localhost:27017/',
-    db          = 'homeworklocations',
+    db          = process.env.MONGODB_DB || 'homeworklocations',
     collection  = 'docs';
 
 module.exports = function(app) {
