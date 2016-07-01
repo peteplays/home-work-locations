@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient,
     _           = require('underscore'),
-    mongoUrl    = process.env.MONGODB_URI || 'mongodb://localhost:27017/',
+    mongoUrl    = process.env.MONGODB_URI_NO_DB || 'mongodb://localhost:27017/',
     db          = process.env.MONGODB_DB || 'homeworklocations',
     collection  = 'docs';
 
