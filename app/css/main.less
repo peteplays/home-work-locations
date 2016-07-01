@@ -1,0 +1,145 @@
+@bg : #67773B;
+@bg-blue-opacity: rgba(0, 68, 102, 0.43);
+@bg-green-opacity: rgba(87, 123, 78, 0.6);
+@blue1: rgba(135, 177, 171, 0.47);
+@footer-height: 35px;
+
+html{
+  	position: relative;
+  	min-height: 100%;
+}
+body {
+  	background-color: @bg;
+	background-image: url("../images/dimension.png");
+  	font-family: 'Raleway', sans-serif;
+  	margin-bottom: @footer-height;
+}
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus{
+    outline: none;
+}
+.btn{
+	background-image: url("../images/cartographer.png");
+} 
+h2,
+h3{	
+	margin-top: 5px;
+	text-align: center;
+	color:#eee;
+	text-shadow: 1px 1px 1px #AFCE61;
+}
+#side-bar{
+	z-index: 5;
+	position: fixed;
+	top: 10%;
+	right: 0;
+	width: 250px;
+	background-color: @bg-blue-opacity;
+	border: 1px solid #333;
+	border-top-left-radius: 14px;
+	border-bottom-left-radius: 14px;
+	transition: ease 0.6s;
+	p{
+		color: #ccc;
+		font-size: 20px;
+		margin-top: 4px;
+	}
+	.side-bar-content{
+		padding: 5px;
+		section:not(:first-child){
+			margin-top: 10px;
+		}
+		input{
+			text-align: center;
+			&:hover{
+				text-align: left;
+			}
+		}
+		.submit-clear-section{
+			width: 100%;
+			.btn{
+				width: 50%;
+			}
+		}
+	}
+}
+#side-bar.ng-hide {
+  right: -100%;
+  opacity:0;
+}
+#round-btn{
+	z-index: 5;
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	border-radius: 50px;
+	width: 50px;
+	height: 50px;
+	opacity: .7;
+	transition: 0.4s ease;
+	box-shadow: 1px 1px 1px 1px #333;
+	background-color: #578199;
+	background-image: url("../images/cartographer.png");
+	&:hover{
+		transition: 0.4s ease;
+		opacity: 1;
+		cursor: pointer;
+	}
+	p{
+		position: fixed;
+		bottom: -26px;
+		right: 20px;		
+		font-size: 70px;
+		color: #bbb;
+		text-shadow: 2px 2px 4px #333;	
+		transition: 0.4s ease;
+	}
+}
+.round-btn-open{
+	transform: rotate(-45deg);
+}
+.plays-well{
+	margin: 15px auto;
+	padding: 0 10px;
+	width: 80%;
+	border-radius: 5px;
+	background-color:  @bg-green-opacity;
+	border: 2px solid darken(@bg, 10%);
+	color: #ddd;
+}
+.the-map{
+	height: 400px;
+	opacity: .7;
+	box-shadow: 1px 1px 1px 1px darken(@bg, 5%), -1px -1px 1px 1px darken(@bg, 5%);
+	margin-bottom: 70px;
+}
+.footer{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+    width: 44px;
+    height: @footer-height;	
+    background-color: @blue1;  
+    border-top-right-radius: 100px;  	
+    box-shadow: 2px 2px 2px darken(@blue1, 50%), -1px -1px 2px darken(@blue1, 80%);
+    transition: all .2s ease-in-out;
+    overflow: hidden;
+	&:hover{		
+		width: 60px;
+		height: 10 + @footer-height;
+		padding: 6px 52px 45px 10px;
+		transform: scale(1.5);
+	}
+	img{
+		width: 40px;
+		padding-top: 8px;
+		opacity: .7;
+		transition: all .2s ease-in-out;
+     	transform: rotate(34deg);
+     	&:hover{
+			transform: rotate(360deg);
+			opacity: 1;
+		}
+	}
+}

@@ -1,0 +1,8 @@
+node_modules
+www/css
+www/js
+www/fonts
+app/css/main.css
+app/css/slider.css
+app/app.css
+.DS_Store

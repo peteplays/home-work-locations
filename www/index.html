@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico">
+    <title>The Deal Template</title>
+    <link rel="stylesheet" href="css/bundle.css">
+  </head>
+  <body ng-app="theApp">
+    <div ng-controller="hwl as vm">
+      
+      <form id="side-bar" name="inputMapData" ng-show="showSideBar" novalidate>
+        <p class="text-center">Add Your Address</p>
+        <div class="side-bar-content">
+          <!-- name -->
+          <section ng-class="{'has-error': inputMapData.currentUser.$invalid && !inputMapData.currentUser.$pristine}">
+            <input type="text" name="currentUser" class="form-control" placeholder="Name" ng-model="currentUser"  required>
+          </section>
+          <!-- home location -->
+          <section class="input-group" ng-class="{'has-error': inputMapData.homeLocInput.$invalid && !inputMapData.homeLocInput.$pristine}">
+            <input type="text" name="homeLocInput" class="form-control" placeholder="Home" ng-model="homeLocInput" ng-blur="mapParams.home.loc = homeLocInput" g-places-autocomplete required>
+            <span class="input-group-btn">
+              <button class="btn btn-success" title="Preview home location on the map">
+                <i class="fa fa-home"></i>
+              </button>
+            </span>
+          </section>
+          <section>
+            <input type="range" ng-model="mapParams.home.radius" min="0" max="3500" ng-change="updateRadius('home', mapParams.home.radius);" required>
+          </section>
+          <!-- new work location -->
+          <section class="input-group" ng-class="{'has-error': inputMapData.workLocInput.$invalid && !inputMapData.workLocInput.$pristine}">
+            <input type="text" name="workLocInput" class="form-control" placeholder="Desired Work Location" ng-model="workLocInput" ng-blur="mapParams.work.loc = workLocInput" g-places-autocomplete required>
+            <span class="input-group-btn">
+              <button class="btn btn-success" title="Preview work location on the map">
+                <i class="fa fa-building"></i>
+              </button>
+            </span>
+          </section>
+          <section>
+            <input type="range" ng-model="mapParams.work.radius" min="0" max="3500" ng-change="updateRadius('work', mapParams.work.radius);">
+          </section>
+          <!-- submit | clear -->
+          <section class="btn-group submit-clear-section">
+            <button type="submit" class="btn btn-success" ng-click="submitData();" ng-disabled="inputMapData.$invalid">Submit</button>
+            <button class="btn btn-warning" ng-click="clearInputs();">Clear</button>
+          </section>
+        </div>
+      </form>
+
+      <!-- add locations btn -->
+      <div id="round-btn" ng-click="showSideBar = !showSideBar" ng-show="dbActive" title="Add a Locations" du-smooth-scroll href="#theMap">
+        <p ng-class="{'round-btn-open' : showSideBar}">&#43;</p>
+      </div>
+
+      <!-- description -->
+      <div class="container">        
+        <div class="row">
+          <div class="col-md-12">
+            <div class="plays-well">  
+              <h2 class="text-center">Welcome</h2>
+              <h3>
+                <em>Let's pick a new home!</em>
+              </h3>           
+              <p>
+                Enter where you live and where you would like our new office will be.  You are able to change the radius of the circle that you create after you enter an address.  For instance, if you want to work <em>anywhere</em> downtown, increase the radius to cover all of downtown.
+              </p>
+              <p>
+                So far, {{outputDBCountRes}} people have voiced their opinion.  <em>Where do you want to work?</em> 
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- db issues -->
+      <div class="container" ng-if="!dbActive">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="plays-well">
+              <h3>Looks like the Mongo is on holiday...</h3>
+              <p class="text-center">Please try back in a bit...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- map -->
+      <div ng-if="dbLocations" id="theMap">
+        <div 
+          map-lazy-load="{{gMap.url}}" 
+          map-lazy-load-params="{{gMap.urlApi+gMap.mKey}}" > 
+          <ng-map 
+            zoom-control-options="{position: 'LEFT_BOTTOM'}" 
+            street-view-control-options="{position:'LEFT_BOTTOM'}" 
+            scrollwheel="false" 
+            center="{{gMap.center}}" 
+            zoom="12" 
+            class="the-map" >
+
+            <shape               
+              id="home" 
+              name="circle" 
+              centered="true" 
+              center="{{homeLocInput.geometry.viewport.f.b}}, {{homeLocInput.geometry.viewport.b.f}}"
+              fill-color="#43CD72"
+              fill-opacity="{{mapParams.fillOpacity}}"
+              stroke-color='#43CD72' 
+              stroke-opacity="{{mapParams.strokeOpacity}}" 
+              stroke-weight="2" 
+              radius="{{mapParams.home.radius}}" 
+            </shape>
+      
+            <shape              
+              id="desiredWork" 
+              name="circle" 
+              centered="true" 
+              center="{{workLocInput.geometry.viewport.f.b}}, {{workLocInput.geometry.viewport.b.f}}"
+              fill-color="#99663D"
+              fill-opacity="{{mapParams.fillOpacity}}"
+              stroke-color='#99663D' 
+              stroke-opacity="{{mapParams.strokeOpacity}}" 
+              stroke-weight="2" 
+              radius="{{mapParams.work.radius}}" 
+            </shape>           
+
+            <div ng-repeat="loc in dbLocations track by $index" >
+              <shape              
+                id="h-{{$index}}" 
+                name="circle" 
+                centered="false" 
+                center="{{loc.home}}"
+                fill-color="#C6BD1B"
+                fill-opacity="{{mapParams.fillOpacity}}"
+                stroke-color='#C6BD1B' 
+                stroke-opacity="{{mapParams.strokeOpacity}}" 
+                stroke-weight="2" 
+                radius="{{loc.home_radius}}" 
+              </shape>
+            </div>
+
+            <div ng-repeat="loc in dbLocations track by $index" >
+              <shape              
+                id="w-{{$index}}" 
+                name="circle" 
+                centered="false" 
+                center="{{loc.work}}"
+                fill-color="#069"
+                fill-opacity="{{mapParams.fillOpacity}}"
+                stroke-color='#069' 
+                stroke-opacity="{{mapParams.strokeOpacity}}" 
+                stroke-weight="2" 
+                radius="{{loc.work_radius}}" 
+              </shape>
+            </div>
+
+          </ng-map>
+        </div><!-- lazy-load-maps -->
+      </div><!-- ng-if -->
+
+      <footer class="footer">    
+        <a href="{{plays.link}}" target="_blank">
+          <img ng-src="{{plays.logoSrc}}" alt="{{plays.logoAlt}}">
+        </a>    
+      </footer>
+
+    </div><!-- hwl -->
+
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAOcSWYKgXmXWT6R5Ry9ZgCojK286at24U"></script>
+    <script src="js/bundle.js"></script>
+  </body>
+</html>
