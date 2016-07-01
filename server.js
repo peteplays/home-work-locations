@@ -3,8 +3,7 @@ var express     = require('express'),
     favicon     = require('serve-favicon'),
     app         = express(),
     path        = require('path'),
-    port        = process.env.OPENSHIFT_NODEJS_PORT || 5555,
-    ip          = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+    port        = process.env.PORT || 5555,
 
 console.log('Server running at...\nhttp://localhost:'+port);
 
@@ -22,4 +21,4 @@ app.get('/',function(req,res){
 var mongoDBConnection = require('./resources/db/mongodb/mongoDBConnection.js');
 mongoDBConnection(app);
 
-app.listen(port, ip);
+app.listen(port);
