@@ -22,7 +22,7 @@
     "url": "https://github.com/peteplays/home-work-locations"
   },
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "angular": "^1.5.1",
     "angular-animate": "^1.5.1",
     "angular-scroll": "^1.0.0",
