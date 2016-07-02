@@ -100,7 +100,7 @@
       </div>
 
       <!-- map -->
-      <div ng-if="dbLocations" id="theMap">
+      <div ng-if="dbLocations" id="theMap" ng-class="{'mobile-device': checkForMobile}">
         <div 
           map-lazy-load="{{gMap.url}}" 
           map-lazy-load-params="{{gMap.urlApi+gMap.mKey}}" > 
