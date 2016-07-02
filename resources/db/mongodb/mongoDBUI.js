@@ -8,6 +8,7 @@ module.exports = function($scope, $http) {
                     $scope.dbActive = true;
                     $scope.getDBCount();
                 } else {
+                    $scope.dbActive = false;
                     console.log(response.data);
                 }
             })
