@@ -22,7 +22,7 @@
   </head>
   <body ng-app="theApp">
     <div ng-controller="hwl as vm">
-      
+
       <form id="side-bar" name="inputMapData" ng-show="showSideBar" novalidate>
         <p class="text-center">Add Your Address</p>
         <div class="side-bar-content">
@@ -68,19 +68,19 @@
       </div>
 
       <!-- description -->
-      <div class="container">        
+      <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <div class="plays-well">  
+            <div class="plays-well">
               <h2 class="text-center">Welcome</h2>
               <h3>
                 <em>Let's pick a new home!</em>
-              </h3>           
+              </h3>
               <p>
                 Enter where you live and where you would like our new office will be.  You are able to change the radius of the circle that you create after you enter an address.  For instance, if you want to work <em>anywhere</em> downtown, increase the radius to cover all of downtown.
               </p>
               <p>
-                So far, {{outputDBCountRes}} people have voiced their opinion.  <em>Where do you want to work?</em> 
+                So far, {{outputDBCountRes}} people have voiced their opinion.  <em>Where do you want to work?</em> Click the <pre>&#43;</pre> button and add your locations!
               </p>
             </div>
           </div>
@@ -101,70 +101,70 @@
 
       <!-- map -->
       <div ng-if="dbLocations" id="theMap" ng-class="{'mobile-device': checkForMobile}">
-        <div 
-          map-lazy-load="{{gMap.url}}" 
-          map-lazy-load-params="{{gMap.urlApi+gMap.mKey}}" > 
-          <ng-map 
-            zoom-control-options="{position: 'LEFT_BOTTOM'}" 
-            street-view-control-options="{position:'LEFT_BOTTOM'}" 
-            scrollwheel="false" 
-            center="{{gMap.center}}" 
-            zoom="12" 
+        <div
+          map-lazy-load="{{gMap.url}}"
+          map-lazy-load-params="{{gMap.urlApi+gMap.mKey}}" >
+          <ng-map
+            zoom-control-options="{position: 'LEFT_BOTTOM'}"
+            street-view-control-options="{position:'LEFT_BOTTOM'}"
+            scrollwheel="false"
+            center="{{gMap.center}}"
+            zoom="12"
             class="the-map" >
 
-            <shape               
-              id="home" 
-              name="circle" 
-              centered="true" 
+            <shape
+              id="home"
+              name="circle"
+              centered="true"
               center="{{homeLocInput.geometry.viewport.f.b}}, {{homeLocInput.geometry.viewport.b.f}}"
               fill-color="#43CD72"
               fill-opacity="{{mapParams.fillOpacity}}"
-              stroke-color='#43CD72' 
-              stroke-opacity="{{mapParams.strokeOpacity}}" 
-              stroke-weight="2" 
-              radius="{{mapParams.home.radius}}" 
+              stroke-color='#43CD72'
+              stroke-opacity="{{mapParams.strokeOpacity}}"
+              stroke-weight="2"
+              radius="{{mapParams.home.radius}}"
             </shape>
-      
-            <shape              
-              id="desiredWork" 
-              name="circle" 
-              centered="true" 
+
+            <shape
+              id="desiredWork"
+              name="circle"
+              centered="true"
               center="{{workLocInput.geometry.viewport.f.b}}, {{workLocInput.geometry.viewport.b.f}}"
               fill-color="#99663D"
               fill-opacity="{{mapParams.fillOpacity}}"
-              stroke-color='#99663D' 
-              stroke-opacity="{{mapParams.strokeOpacity}}" 
-              stroke-weight="2" 
-              radius="{{mapParams.work.radius}}" 
-            </shape>           
+              stroke-color='#99663D'
+              stroke-opacity="{{mapParams.strokeOpacity}}"
+              stroke-weight="2"
+              radius="{{mapParams.work.radius}}"
+            </shape>
 
             <div ng-repeat="loc in dbLocations track by $index" >
-              <shape              
-                id="h-{{$index}}" 
-                name="circle" 
-                centered="false" 
+              <shape
+                id="h-{{$index}}"
+                name="circle"
+                centered="false"
                 center="{{loc.home}}"
                 fill-color="#C6BD1B"
                 fill-opacity="{{mapParams.fillOpacity}}"
-                stroke-color='#C6BD1B' 
-                stroke-opacity="{{mapParams.strokeOpacity}}" 
-                stroke-weight="2" 
-                radius="{{loc.home_radius}}" 
+                stroke-color='#C6BD1B'
+                stroke-opacity="{{mapParams.strokeOpacity}}"
+                stroke-weight="2"
+                radius="{{loc.home_radius}}"
               </shape>
             </div>
 
             <div ng-repeat="loc in dbLocations track by $index" >
-              <shape              
-                id="w-{{$index}}" 
-                name="circle" 
-                centered="false" 
+              <shape
+                id="w-{{$index}}"
+                name="circle"
+                centered="false"
                 center="{{loc.work}}"
                 fill-color="#069"
                 fill-opacity="{{mapParams.fillOpacity}}"
-                stroke-color='#069' 
-                stroke-opacity="{{mapParams.strokeOpacity}}" 
-                stroke-weight="2" 
-                radius="{{loc.work_radius}}" 
+                stroke-color='#069'
+                stroke-opacity="{{mapParams.strokeOpacity}}"
+                stroke-weight="2"
+                radius="{{loc.work_radius}}"
               </shape>
             </div>
 
@@ -172,10 +172,10 @@
         </div><!-- lazy-load-maps -->
       </div><!-- ng-if -->
 
-      <footer class="footer">    
+      <footer class="footer">
         <a href="{{plays.link}}" target="_blank">
           <img ng-src="{{plays.logoSrc}}" alt="{{plays.logoAlt}}">
-        </a>    
+        </a>
       </footer>
 
     </div><!-- hwl -->
