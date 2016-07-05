@@ -11,5 +11,7 @@ var theApp = angular.module('theApp', [
     'google.places',
     'duScroll'
 ])
+.controller('marker', require('./js/marker.js'))
 .controller('hwl', require('./js/main.js'))
+
 ;

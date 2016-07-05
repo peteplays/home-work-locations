@@ -1,7 +1,17 @@
 //@ngInject
 var db = require('../../resources/db/mongodb/mongoDBUI.js');
 var _ = require('underscore');
-module.exports = ['$scope', '$http', '$window','NgMap',function($scope, $http, $window, NgMap) {
+module.exports = ['NgMap','$scope', '$http', '$window',function(NgMap, $scope, $http, $window) {
+	NgMap.getMap().then(function(map) {
+	    $scope.map = map;
+	});
+	$scope.placeMarker = function(e) {
+	    console.log(e.latLng.lat(),e.latLng.lng() );
+	    var position = e.latLng;
+	    var marker = new google.maps.Marker({position: e.latLng, map: $scope.map});
+	    $scope.map.panTo(e.latLng);
+	};
+
 	$scope.dbActive = true;
 	//-- call db
     db($scope, $http);
@@ -9,17 +19,10 @@ module.exports = ['$scope', '$http', '$window','NgMap',function($scope, $http, $
     $scope.getMapData();
 
     $scope.dbLocations = [];
-    $scope.gMap = { 
-    	url: 'https://maps.google.com/maps/api/js', 
-    	urlApi: 'https://maps.googleapis.com/maps/api/js?key=', 
-    	mKey: 'AIzaSyAOcSWYKgXmXWT6R5Ry9ZgCojK286at24U', 
-    	placesLib: '&libraries=places', 
-    	center: '32.8070014,-79.9731229' 
-    };
     $scope.mapParams = { 
 		home: {
 			loc: null,
-			radius: 1000 
+			radius: 1000
 		},
 		work: {
 			loc: null,
@@ -33,6 +36,10 @@ module.exports = ['$scope', '$http', '$window','NgMap',function($scope, $http, $
 	  	logoSrc: 'images/playslogo.png',
 	  	logoAlt: 'PetePlays'
 	};
+
+	$scope.homeCenter = (_.has($scope.homeLocInput, 'geometry') ) ? $scope.homeLocInput.geometry.viewport.f.b +','+ $scope.homeLocInput.geometry.viewport.b.f : '';
+
+	// $scope.homeCenter = $scope.homeLocInput.geometry.viewport.f.b +','+ $scope.homeLocInput.geometry.viewport.b.f;
 
    
     $scope.updateRadius = function(loc, newRadius) {
@@ -49,7 +56,7 @@ module.exports = ['$scope', '$http', '$window','NgMap',function($scope, $http, $
     		{
     			"name" : $scope.currentUser,
     			"email" : "TESTER@qwe.com",
-    			"home" : $scope.homeLocInput.geometry.viewport.f.b +','+ $scope.homeLocInput.geometry.viewport.b.f,
+    			"home" : $scope.homeCenter,
     			"home_radius" : $scope.mapParams.home.radius,
     			"work" : $scope.workLocInput.geometry.viewport.f.b +','+ $scope.workLocInput.geometry.viewport.b.f,
     			"work_radius" : $scope.mapParams.work.radius,
@@ -76,5 +83,9 @@ module.exports = ['$scope', '$http', '$window','NgMap',function($scope, $http, $
       return check;
   }
   $scope.checkForMobile = $window.mobilecheck();
+  $scope.$on('markerCords', function(e, args) {
+  	console.log(args);
+  	$scope.homeCenter = args;
+  });
 
 }];
