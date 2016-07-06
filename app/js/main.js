@@ -2,15 +2,20 @@
 var db = require('../../resources/db/mongodb/mongoDBUI.js');
 var _ = require('underscore');
 module.exports = ['NgMap','$scope', '$http', '$window',function(NgMap, $scope, $http, $window) {
-	NgMap.getMap().then(function(map) {
-	    $scope.map = map;
-	});
-	$scope.placeMarker = function(e) {
+	// NgMap.getMap().then(function(map) {
+	//     $scope.map = map;
+	// });
+	$scope.markerDrop = function(e) {
+		console.log(e);
 	    console.log(e.latLng.lat(),e.latLng.lng() );
-	    var position = e.latLng;
-	    var marker = new google.maps.Marker({position: e.latLng, map: $scope.map});
-	    $scope.map.panTo(e.latLng);
+	    var cords = e.latLng.lat() +','+e.latLng.lng();
+	    $scope.homeCenter = cords;
+	    // var position = e.latLng;
+	    // var marker = new google.maps.Marker({position: e.latLng, map: $scope.map});
+	    // $scope.map.panTo(e.latLng);
 	};
+
+	// $scope.markerDrop = '32.8070014,-79.9731229';
 
 	$scope.dbActive = true;
 	//-- call db

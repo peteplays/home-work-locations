@@ -21,15 +21,14 @@ module.exports = ['NgMap', '$scope' ,function(NgMap, $scope) {
     //     strokeOpacity: 0.35
     // };
 
-    NgMap.getMap().then(function (map) {
-        $scope.map = map;
-    });
-    $scope.placeMarker = function (e) {
-        var cords = e.latLng.lat() +', '+e.latLng.lng();
-        var marker = new google.maps.Marker({position: e.latLng, map: $scope.map});
-        $scope.map.panTo(e.latLng);
-        $scope.$emit('markerCords', cords);
-        console.log($scope.positions);
-    };
+    // NgMap.getMap().then(function(map) {
+    //     $scope.map = map;
+    // });
+    // $scope.placeMarker = function(e) {
+    //     var cords = e.latLng.lat() +', '+e.latLng.lng();
+    //     // var marker = new google.maps.Marker({position: e.latLng, map: $scope.map});
+    //     // $scope.map.panTo(e.latLng);
+    //     $scope.$emit('markerCords', cords);
+    // };
 
 }];

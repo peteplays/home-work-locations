@@ -111,7 +111,7 @@
             center="{{gMap.center}}"
             zoom="12"
             class="the-map" 
-            on-click="placeMarker()">
+            on-click="markerDrop()" >
 
             <shape
               id="home"
@@ -168,6 +168,17 @@
                 radius="{{loc.work_radius}}"
               </shape>
             </div>
+
+            <marker 
+              position="{{homeCenter}}" 
+              title="Drag Me" 
+              draggable="true" 
+              on-dragend="markerDrop()" 
+              icon="{
+                url: 'images/red-marker.png'
+                }" >
+            </marker>
+            <!-- <marker position="{{homeCenter}}" title="Drag Me" draggable="true"></marker> -->
 
           </ng-map>
         </div><!-- lazy-load-maps -->
