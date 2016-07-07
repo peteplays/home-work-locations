@@ -31,6 +31,14 @@
             <input type="text" name="currentUser" class="form-control" placeholder="Name" ng-model="currentUser"  required>
           </section>
           <!-- home location -->
+          <section class="btn-group block-btn-group">
+            <button class="btn btn-info">
+              <i class="fa fa-map-marker"></i>
+            </button>
+            <button class="btn btn-info">
+              <i class="fa fa-home"></i>
+            </button>
+          </section>
           <section class="input-group" ng-class="{'has-error': inputMapData.homeLocInput.$invalid && !inputMapData.homeLocInput.$pristine}">
             <input type="text" name="homeLocInput" class="form-control" placeholder="Home" ng-model="homeLocInput" ng-blur="mapParams.home.loc = homeLocInput" g-places-autocomplete required>
             <span class="input-group-btn">
@@ -43,6 +51,14 @@
             <input type="range" ng-model="mapParams.home.radius" min="0" max="3500" ng-change="updateRadius('home', mapParams.home.radius);" required>
           </section>
           <!-- new work location -->
+          <section class="btn-group block-btn-group">
+            <button class="btn btn-info">
+              <i class="fa fa-map-marker"></i>
+            </button>
+            <button class="btn btn-info">
+              <i class="fa fa-home"></i>
+            </button>
+          </section>
           <section class="input-group" ng-class="{'has-error': inputMapData.workLocInput.$invalid && !inputMapData.workLocInput.$pristine}">
             <input type="text" name="workLocInput" class="form-control" placeholder="Desired Work Location" ng-model="workLocInput" ng-blur="mapParams.work.loc = workLocInput" g-places-autocomplete required>
             <span class="input-group-btn">
@@ -55,7 +71,7 @@
             <input type="range" ng-model="mapParams.work.radius" min="0" max="3500" ng-change="updateRadius('work', mapParams.work.radius);">
           </section>
           <!-- submit | clear -->
-          <section class="btn-group submit-clear-section">
+          <section class="btn-group block-btn-group">
             <button type="submit" class="btn btn-success" ng-click="submitData();" ng-disabled="inputMapData.$invalid">Submit</button>
             <button class="btn btn-warning" ng-click="clearInputs();">Clear</button>
           </section>
@@ -171,14 +187,19 @@
 
             <marker 
               position="{{homeCenter}}" 
-              title="Drag Me" 
+              title="Home Location - Drag Me" 
               draggable="true" 
               on-dragend="markerDrop()" 
-              icon="{
-                url: 'images/red-marker.png'
-                }" >
+              icon="{ url: 'images/sm-blue-marker.png' }" >
             </marker>
-            <!-- <marker position="{{homeCenter}}" title="Drag Me" draggable="true"></marker> -->
+
+            <marker 
+              position="{{workCenter}}" 
+              title="Home Location - Drag Me" 
+              draggable="true" 
+              on-dragend="markerDrop()" 
+              icon="{ url: 'images/sm-purple-marker.png' }" >
+            </marker>
 
           </ng-map>
         </div><!-- lazy-load-maps -->
