@@ -17,61 +17,69 @@
 
       ga('create', 'UA-80244109-1', 'auto');
       ga('send', 'pageview');
-
     </script>
   </head>
   <body ng-app="theApp">
     <div ng-controller="hwl">
 
       <form id="side-bar" name="inputMapData" ng-show="showSideBar" novalidate>
-        <p class="text-center">Add Your Address</p>
         <div class="side-bar-content">
           <!-- name -->
           <section ng-class="{'has-error': inputMapData.currentUser.$invalid && !inputMapData.currentUser.$pristine}">
             <input type="text" name="currentUser" class="form-control" placeholder="Name" ng-model="currentUser"  required>
           </section>
           <!-- home location -->
-          <section class="btn-group block-btn-group">
-            <button class="btn btn-info">
+          <h4>Home Address</h4>
+          <section class="btn-group pin-house-btn">            
+            <button class="btn btn-info" uib-btn-radio="'pin'" ng-model="mapParams.home.input">
+              Drag Pin
               <i class="fa fa-map-marker"></i>
             </button>
-            <button class="btn btn-info">
+            <button class="btn btn-info" uib-btn-radio="'input'" ng-model="mapParams.home.input" ng-click="homeLocInput = null">
+              Type Address
               <i class="fa fa-home"></i>
             </button>
           </section>
-          <section class="input-group" ng-class="{'has-error': inputMapData.homeLocInput.$invalid && !inputMapData.homeLocInput.$pristine}">
-            <input type="text" name="homeLocInput" class="form-control" placeholder="Home" ng-model="homeLocInput" ng-blur="mapParams.home.loc = homeLocInput" g-places-autocomplete required>
-            <span class="input-group-btn">
-              <button class="btn btn-success" title="Preview home location on the map">
-                <i class="fa fa-home"></i>
-              </button>
-            </span>
-          </section>
+          <div uib-collapse="mapParams.home.input == 'pin'" class="input-address">
+            <section class="input-group" ng-class="{'has-error': inputMapData.homeLocInput.$invalid && !inputMapData.homeLocInput.$pristine}">
+              <input type="text" name="homeLocInput" class="form-control" placeholder="Home" ng-model="homeLocInput" ng-blur="addressInputConvertToCords('home', homeLocInput);" g-places-autocomplete ng-required="mapParams.home.input == 'input'">
+              <span class="input-group-btn">
+                <button class="btn btn-success" title="Preview home location on the map">
+                  <i class="fa fa-home"></i>
+                </button>
+              </span>
+            </section>
+          </div>
           <section>
             <input type="range" ng-model="mapParams.home.radius" min="0" max="3500" ng-change="updateRadius('home', mapParams.home.radius);" required>
           </section>
           <!-- new work location -->
-          <section class="btn-group block-btn-group">
-            <button class="btn btn-info">
+          <h4>Desired Work Location</h4>
+          <section class="btn-group pin-house-btn">            
+            <button class="btn btn-info" uib-btn-radio="'pin'" ng-model="mapParams.work.input">
+              Drag Pin
               <i class="fa fa-map-marker"></i>
             </button>
-            <button class="btn btn-info">
+            <button class="btn btn-info" uib-btn-radio="'input'" ng-model="mapParams.work.input" ng-click="workLocInput = null">
+              Type Address
               <i class="fa fa-home"></i>
             </button>
           </section>
-          <section class="input-group" ng-class="{'has-error': inputMapData.workLocInput.$invalid && !inputMapData.workLocInput.$pristine}">
-            <input type="text" name="workLocInput" class="form-control" placeholder="Desired Work Location" ng-model="workLocInput" ng-blur="mapParams.work.loc = workLocInput" g-places-autocomplete required>
-            <span class="input-group-btn">
-              <button class="btn btn-success" title="Preview work location on the map">
-                <i class="fa fa-building"></i>
-              </button>
-            </span>
-          </section>
+          <div uib-collapse="mapParams.work.input == 'pin'" class="input-address">
+            <section class="input-group" ng-class="{'has-error': inputMapData.workLocInput.$invalid && !inputMapData.workLocInput.$pristine}">
+              <input type="text" name="workLocInput" class="form-control" placeholder="Desired Work Location" ng-model="workLocInput" ng-blur="addressInputConvertToCords('work', workLocInput);" g-places-autocomplete ng-required="mapParams.work.input == 'input'">
+              <span class="input-group-btn">
+                <button class="btn btn-success" title="Preview work location on the map">
+                  <i class="fa fa-building"></i>
+                </button>
+              </span>
+            </section>
+          </div>
           <section>
             <input type="range" ng-model="mapParams.work.radius" min="0" max="3500" ng-change="updateRadius('work', mapParams.work.radius);">
           </section>
           <!-- submit | clear -->
-          <section class="btn-group block-btn-group">
+          <section class="btn-group submit-clear-section">
             <button type="submit" class="btn btn-success" ng-click="submitData();" ng-disabled="inputMapData.$invalid">Submit</button>
             <button class="btn btn-warning" ng-click="clearInputs();">Clear</button>
           </section>
@@ -93,10 +101,13 @@
                 <em>Let's pick a new home!</em>
               </h3>
               <p>
-                Enter where you live and where you would like our new office will be.  You are able to change the radius of the circle that you create after you enter an address.  For instance, if you want to work <em>anywhere</em> downtown, increase the radius to cover all of downtown.
+                Drag the blue pin <img src="images/sm-blue-pin.png" alt="blue pin"> to where you live.  Drag the purple pin <img src="images/sm-purple-pin.png" alt="purple pin"> to where you want to work.  Then click the <img src="images/sm-add-address.png" alt="add address"> button to add your name, adjust your radius, and submit your vote!  You are also able to enter an address if your prefer.
               </p>
               <p>
-                So far, {{outputDBCountRes}} people have voiced their opinion.  <em>Where do you want to work?</em>  Click the <kbd>&#43;</kbd> button and add your locations!
+                Let's say you want to work <em>anywhere</em> downtown, increase the radius to cover all of downtown.
+              </p>
+              <p>
+                So far, {{outputDBCountRes}} people have voiced their opinion.  <em>Where do you want to work?</em>
               </p>
             </div>
           </div>
@@ -133,7 +144,7 @@
               id="home"
               name="circle"
               centered="true"
-              center="{{homeCenter}}"
+              center="{{mapParams.home.loc}}"
               fill-color="#43CD72"
               fill-opacity="{{mapParams.fillOpacity}}"
               stroke-color='#43CD72'
@@ -142,11 +153,23 @@
               radius="{{mapParams.home.radius}}"
             </shape>
 
-            <shape
+            <!-- <shape
               id="desiredWork"
               name="circle"
               centered="true"
               center="{{workLocInput.geometry.viewport.f.b}}, {{workLocInput.geometry.viewport.b.f}}"
+              fill-color="#99663D"
+              fill-opacity="{{mapParams.fillOpacity}}"
+              stroke-color='#99663D'
+              stroke-opacity="{{mapParams.strokeOpacity}}"
+              stroke-weight="2"
+              radius="{{mapParams.work.radius}}"
+            </shape> -->
+            <shape
+              id="desiredWork"
+              name="circle"
+              centered="true"
+              center="{{mapParams.work.loc}}"
               fill-color="#99663D"
               fill-opacity="{{mapParams.fillOpacity}}"
               stroke-color='#99663D'
@@ -186,19 +209,19 @@
             </div>
 
             <marker 
-              position="{{homeCenter}}" 
+              position="{{mapParams.home.loc}}" 
               title="Home Location - Drag Me" 
               draggable="true" 
-              on-dragend="markerDrop()" 
-              icon="{ url: 'images/sm-blue-marker.png' }" >
+              on-dragend="homePin()" 
+              icon="{ url: 'images/sm-blue-pin.png' }" >
             </marker>
 
             <marker 
-              position="{{workCenter}}" 
-              title="Home Location - Drag Me" 
+              position="{{mapParams.work.loc}}" 
+              title="Work Location - Drag Me" 
               draggable="true" 
-              on-dragend="markerDrop()" 
-              icon="{ url: 'images/sm-purple-marker.png' }" >
+              on-dragend="workPin()" 
+              icon="{ url: 'images/sm-purple-pin.png' }" >
             </marker>
 
           </ng-map>

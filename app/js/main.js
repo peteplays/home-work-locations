@@ -1,22 +1,7 @@
 //@ngInject
-var db = require('../../resources/db/mongodb/mongoDBUI.js');
-var _ = require('underscore');
+var db = require('../../resources/db/mongodb/mongoDBUI.js'),
+	 _ = require('underscore');
 module.exports = ['NgMap','$scope', '$http', '$window',function(NgMap, $scope, $http, $window) {
-	// NgMap.getMap().then(function(map) {
-	//     $scope.map = map;
-	// });
-	$scope.markerDrop = function(e) {
-		console.log(e);
-	    console.log(e.latLng.lat(),e.latLng.lng() );
-	    var cords = e.latLng.lat() +','+e.latLng.lng();
-	    $scope.homeCenter = cords;
-	    // var position = e.latLng;
-	    // var marker = new google.maps.Marker({position: e.latLng, map: $scope.map});
-	    // $scope.map.panTo(e.latLng);
-	};
-
-	// $scope.markerDrop = '32.8070014,-79.9731229';
-
 	$scope.dbActive = true;
 	//-- call db
     db($scope, $http);
@@ -26,12 +11,14 @@ module.exports = ['NgMap','$scope', '$http', '$window',function(NgMap, $scope, $
     $scope.dbLocations = [];
     $scope.mapParams = { 
 		home: {
-			loc: null,
-			radius: 1000
+			input: 'pin',
+			loc: '32.81815224742798,-79.97875213623047',
+			radius: 750
 		},
 		work: {
-			loc: null,
-			radius: 500
+			input: 'pin',
+			loc: '32.80747611799844,-79.92416381835938',
+			radius: 1500
 		},
 		fillOpacity: 0.2,
 		strokeOpacity: 0.35
@@ -42,11 +29,26 @@ module.exports = ['NgMap','$scope', '$http', '$window',function(NgMap, $scope, $
 	  	logoAlt: 'PetePlays'
 	};
 
-	$scope.homeCenter = (_.has($scope.homeLocInput, 'geometry') ) ? $scope.homeLocInput.geometry.viewport.f.b +','+ $scope.homeLocInput.geometry.viewport.b.f : '';
+	$scope.homePin = function(e) {
+	    console.log(e.latLng.lat(),e.latLng.lng() );
+	    $scope.mapParams.home.loc = e.latLng.lat() +','+e.latLng.lng();
+	};
 
-	// $scope.homeCenter = $scope.homeLocInput.geometry.viewport.f.b +','+ $scope.homeLocInput.geometry.viewport.b.f;
+	$scope.workPin = function(e) {
+	    console.log(e.latLng.lat(),e.latLng.lng() );
+	    $scope.mapParams.work.loc = e.latLng.lat() +','+e.latLng.lng();
+	};
 
-   
+   $scope.addressInputConvertToCords = function(loc, newAddress) {
+    	if( _.has(newAddress, 'geometry') ) {
+    		if( loc == 'home' ) {
+    			$scope.mapParams.home.loc = newAddress.geometry.viewport.f.b +','+ newAddress.geometry.viewport.b.f
+    		} else {
+    			$scope.mapParams.work.loc = newAddress.geometry.viewport.f.b +','+ newAddress.geometry.viewport.b.f
+    		}
+    	}
+    };
+
     $scope.updateRadius = function(loc, newRadius) {
     	if( loc == 'home' ) {
     		$scope.mapParams.home.radius = newRadius;
@@ -56,19 +58,17 @@ module.exports = ['NgMap','$scope', '$http', '$window',function(NgMap, $scope, $
     };
 
     $scope.submitData = function() {
-    	//-- add locally
     	$scope.dbLocations.push(
     		{
     			"name" : $scope.currentUser,
     			"email" : "TESTER@qwe.com",
-    			"home" : $scope.homeCenter,
+    			"home" : $scope.mapParams.home.loc,
     			"home_radius" : $scope.mapParams.home.radius,
-    			"work" : $scope.workLocInput.geometry.viewport.f.b +','+ $scope.workLocInput.geometry.viewport.b.f,
+    			"work": $scope.mapParams.work.loc,
     			"work_radius" : $scope.mapParams.work.radius,
     			"dts" : (new Date()).toJSON()
     		}
     	);
-    	//-- add to db
     	$scope.dbInsert(_.last($scope.dbLocations));
 
     	$scope.showSideBar = false;
@@ -88,9 +88,5 @@ module.exports = ['NgMap','$scope', '$http', '$window',function(NgMap, $scope, $
       return check;
   }
   $scope.checkForMobile = $window.mobilecheck();
-  $scope.$on('markerCords', function(e, args) {
-  	console.log(args);
-  	$scope.homeCenter = args;
-  });
 
 }];

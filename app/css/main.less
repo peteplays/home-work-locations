@@ -18,7 +18,8 @@ body {
 .btn.active:focus{
     outline: none;
 }
-.btn{
+.btn,
+.btn.active{
 	background-image: url("../images/cartographer.png");
 } 
 h2,
@@ -39,14 +40,20 @@ h3{
 	border-top-left-radius: 14px;
 	border-bottom-left-radius: 14px;
 	transition: ease 0.6s;
-	p{
-		color: #ccc;
-		font-size: 20px;
-		margin-top: 4px;
+	h4{
+		color: #fff;
+		text-align: center;
+		margin-bottom: 0;		
+    	padding: 4px;
+    	border-radius: 5px;
+    	background: darken(@bg-green-opacity, 10%);
+    	border: 1px solid darken(@bg-green-opacity, 20%);
+    	background-image: url("../images/dimension.png");
 	}
 	.side-bar-content{
 		padding: 5px;
-		section:not(:first-child){
+		section,
+		.input-address{
 			margin-top: 10px;
 		}
 		input{
@@ -55,12 +62,23 @@ h3{
 				text-align: left;
 			}
 		}
-	}
-}
-.block-btn-group{
-	width: 100%;
-	.btn{
-		width: 50%;
+		.pin-house-btn{
+			width: 100%;
+			.btn{
+				&:first-child{
+					width: 40%;
+				}
+				&:last-child{
+					width: 60%;
+				}
+			}
+		}
+		.submit-clear-section{
+			width: 100%;
+			.btn{
+				width: 50%;
+			}
+		}
 	}
 }
 #side-bar.ng-hide {
