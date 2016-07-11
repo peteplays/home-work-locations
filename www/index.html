@@ -101,7 +101,13 @@
                 <em>Let's pick a new home!</em>
               </h3>
               <p>
-                Drag and drop the blue pin <img src="images/sm-blue-pin.png" alt="blue pin"> to your home locations.  Drag and drop the purple pin <img src="images/sm-purple-pin.png" alt="purple pin"> to your desired new office location.  Then click the <img src="images/sm-add-address.png" alt="add address">  button to add your name, adjust the radius limits of your entered locations, and submit your vote! If you would prefer to enter a specific address, for your home or work location, they can be input as well.
+                Drag and drop the blue pin 
+                <img src="images/sm-blue-pin.png" alt="blue pin"> 
+                to your home location.  Drag and drop the purple pin 
+                <img src="images/sm-purple-pin.png" alt="purple pin"> 
+                to your desired new office location.  Then click the 
+                <img src="images/sm-add-address.png" alt="add address">  
+                button to add your name, adjust the radius limits of your entered locations, and submit your vote! If you would prefer to enter a specific address, for your home or work location, they can be input as well.
               </p>
               <p>
                 Let's say you want to work <em>anywhere</em> downtown, increase the radius to cover all of downtown.
@@ -153,18 +159,6 @@
               radius="{{mapParams.home.radius}}"
             </shape>
 
-            <!-- <shape
-              id="desiredWork"
-              name="circle"
-              centered="true"
-              center="{{workLocInput.geometry.viewport.f.b}}, {{workLocInput.geometry.viewport.b.f}}"
-              fill-color="#99663D"
-              fill-opacity="{{mapParams.fillOpacity}}"
-              stroke-color='#99663D'
-              stroke-opacity="{{mapParams.strokeOpacity}}"
-              stroke-weight="2"
-              radius="{{mapParams.work.radius}}"
-            </shape> -->
             <shape
               id="desiredWork"
               name="circle"
