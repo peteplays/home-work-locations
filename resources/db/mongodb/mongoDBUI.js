@@ -5,7 +5,6 @@ module.exports = function($scope, $http) {
         $http.get('/dbCheck')
             .then(function(response) {
                 if(response.data.db == 'ok') {
-                    $scope.dbActive = true;
                     $scope.getDBCount();
                 } else {
                     $scope.dbActive = false;

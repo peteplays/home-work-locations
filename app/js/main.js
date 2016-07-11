@@ -1,7 +1,7 @@
 //@ngInject
 var db = require('../../resources/db/mongodb/mongoDBUI.js'),
 	 _ = require('underscore');
-module.exports = ['NgMap','$scope', '$http', '$window',function(NgMap, $scope, $http, $window) {
+module.exports = ['$scope', '$http', '$window',function($scope, $http, $window) {
 	$scope.dbActive = true;
 	//-- call db
     db($scope, $http);
@@ -32,11 +32,13 @@ module.exports = ['NgMap','$scope', '$http', '$window',function(NgMap, $scope, $
 	$scope.homePin = function(e) {
 	    console.log(e.latLng.lat(),e.latLng.lng() );
 	    $scope.mapParams.home.loc = e.latLng.lat() +','+e.latLng.lng();
+	    $scope.clearAInput('homeLocInput');
 	};
 
 	$scope.workPin = function(e) {
 	    console.log(e.latLng.lat(),e.latLng.lng() );
 	    $scope.mapParams.work.loc = e.latLng.lat() +','+e.latLng.lng();
+	    $scope.clearAInput('workLocInput');
 	};
 
    $scope.addressInputConvertToCords = function(loc, newAddress) {
@@ -61,7 +63,6 @@ module.exports = ['NgMap','$scope', '$http', '$window',function(NgMap, $scope, $
     	$scope.dbLocations.push(
     		{
     			"name" : $scope.currentUser,
-    			"email" : "TESTER@qwe.com",
     			"home" : $scope.mapParams.home.loc,
     			"home_radius" : $scope.mapParams.home.radius,
     			"work": $scope.mapParams.work.loc,
@@ -81,6 +82,10 @@ module.exports = ['NgMap','$scope', '$http', '$window',function(NgMap, $scope, $
     	$scope.workLocInput = null;
     	$scope.inputMapData.$setPristine();
     };
+
+    $scope.clearAInput = function(loc) {
+    	$scope[loc] = null;
+    }
 
     $window.mobilecheck = function() {
       var check = false;

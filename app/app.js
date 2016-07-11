@@ -13,5 +13,4 @@ var theApp = angular.module('theApp', [
 ])
 .controller('marker', require('./js/marker.js'))
 .controller('hwl', require('./js/main.js'))
-
 ;

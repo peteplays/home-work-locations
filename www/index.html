@@ -22,7 +22,7 @@
   <body ng-app="theApp">
     <div ng-controller="hwl">
 
-      <form id="side-bar" name="inputMapData" ng-show="showSideBar" novalidate>
+      <form id="side-bar" name="inputMapData" ng-show="showSideBar" ng-class="{'mobile-device': checkForMobile}" novalidate>
         <div class="side-bar-content">
           <!-- name -->
           <section ng-class="{'has-error': inputMapData.currentUser.$invalid && !inputMapData.currentUser.$pristine}">
@@ -87,7 +87,7 @@
       </form>
 
       <!-- add locations btn -->
-      <div id="round-btn" ng-click="showSideBar = !showSideBar" ng-show="dbActive" title="Add a Locations" du-smooth-scroll href="#theMap">
+      <div id="round-btn" ng-click="showSideBar = !showSideBar" ng-show="dbActive" title="Add a Locations" du-smooth-scroll href="#the-map">
         <p ng-class="{'round-btn-open' : showSideBar}">&#43;</p>
       </div>
 
@@ -133,7 +133,7 @@
       </div>
 
       <!-- map -->
-      <div ng-if="dbLocations" id="theMap" ng-class="{'mobile-device': checkForMobile}" ng-controller="marker">
+      <div ng-if="dbLocations" id="the-map" ng-class="{'mobile-device': checkForMobile}" ng-controller="marker">
         <div
           map-lazy-load="{{gMap.url}}"
           map-lazy-load-params="{{gMap.urlApi+gMap.mKey}}" >
