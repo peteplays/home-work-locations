@@ -1,52 +1,52 @@
 var _ = require('underscore');
-module.exports = function($scope, $http) {
+module.exports = function ($scope, $http) {
 
-    $scope.getDBCheck = function() {
+    $scope.getDBCheck = function () {
         $http.get('/dbCheck')
-            .then(function(response) {
-                if(response.data.db == 'ok') {
+            .then(function (response) {
+                if (response.data.db == 'ok') {
                     $scope.getDBCount();
                 } else {
                     $scope.dbActive = false;
                     console.log(response.data);
                 }
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 console.log(err);
             });
     };
 
-    $scope.getDBCount = function() {
+    $scope.getDBCount = function () {
         name = name.toLowerCase();
         $http.get('/dbCount')
-            .then(function(response) {
+            .then(function (response) {
                 $scope.outputDBCountRes = response.data;
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 console.log(err);
             });
     };
 
-    $scope.getMapData = function() {
+    $scope.getMapData = function () {
         $http.get('/dbGetAllData')
-            .then(function(response) {
+            .then(function (response) {
                 $scope.outputGetData = response.data;
                 $scope.dbLocations = response.data;
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 console.log(err);
             });
     };
 
-    $scope.dbInsert = function(data) {
-        if(data) {
+    $scope.dbInsert = function (data) {
+        if (data) {
             $http.post('/dbInsert', data)
-                .then(function(response) {
+                .then(function (response) {
                     $scope.outputInsertNameRes = response.data;
                     $scope.getDBCount();
                     $scope.getMapData();
                 })
-                .catch(function(err) {
+                .catch(function (err) {
                     console.log(err);
                 });
         }
